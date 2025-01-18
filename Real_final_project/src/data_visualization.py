@@ -5,36 +5,6 @@ import seaborn as sns
 from data_cleaning import dataset, dataset_0, dataset_1
 from data_analysis import correlation_matrix_0, correlation_matrix_1, correlation_matrix_full
 
-def plot_attention_and_meditation(data, title_suffix=""):
-    """
-    Plots the distributions of attention and meditation levels for a given dataset.
-    
-    Parameters:
-        data (pd.DataFrame): The dataset containing 'attention' and 'meditation' columns.
-        title_suffix (str): Optional suffix to add to plot titles for context.
-    """
-    plt.figure(figsize=(12, 5))
-
-    # Set y-axis ticks
-    y_ticks = range(0, 501, 50)
-
-    # Distribution of Attention
-    plt.subplot(1, 2, 1)
-    sns.histplot(data['attention'], kde=True, bins=20, color='skyblue')
-    plt.title(f'Distribution of Attention Levels {title_suffix}')
-    plt.xlabel('Attention')
-    plt.yticks(y_ticks)
-
-    # Distribution of Meditation
-    plt.subplot(1, 2, 2)
-    sns.histplot(data['meditation'], kde=True, bins=20, color='orange')
-    plt.title(f'Distribution of Meditation Levels {title_suffix}')
-    plt.xlabel('Meditation')
-    plt.yticks(y_ticks)
-
-    plt.tight_layout()
-    plt.show()
-
 
 def plot_correlation_heatmap(correlation_matrix, title="Correlation Matrix", dataset_name=""):
     """
@@ -47,7 +17,11 @@ def plot_correlation_heatmap(correlation_matrix, title="Correlation Matrix", dat
     """
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f", vmin=-1, vmax=1)
-    plt.title(title)
+    if dataset_name:
+        full_title = f"{title} of {dataset_name}"
+    else:
+        full_title = title
+    plt.title(full_title)
     plt.show()
 
 
@@ -77,3 +51,13 @@ def plot_brainwave_relationships(dataset, brainwave_columns, target_column, colo
     plt.tight_layout()
     plt.show()
 
+
+def visualize_r_squared(results_df, suffix=""):
+    # Create a pivot table for visualization
+    heatmap_data = results_df.pivot(index="Brainwave", columns="Target", values="R^2")
+
+    # Generate heatmap
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(heatmap_data, annot=True, cmap="coolwarm", fmt=".2f")
+    plt.title(f"Quadratic R^2 Heatmap for Brainwaves vs Attention/Meditation {suffix}")
+    plt.show()

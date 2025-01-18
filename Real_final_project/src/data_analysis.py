@@ -1,6 +1,8 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy.optimize import curve_fit
 
 from data_cleaning import dataset, dataset_0, dataset_1
 
@@ -51,4 +53,61 @@ def categorize_correlation(correlation_matrix):
     print("\nWeak Correlation (0.0 - 0.3):")
     print("\n".join(weak) if weak else "None")
 
+#test for non-linear relationship between brainwaves and attention, meditation
 
+def analyze_r_squared(data):
+   
+    # Identify columns
+    attention = data['attention']
+    meditation = data['meditation']
+    brainwaves = data.drop(columns=['attention', 'meditation'])
+
+    # Simplest way: Using curve_fit to calculate quadratic R^2
+    results = []
+
+    def quadratic(x, a, b, c):
+        return a * x**2 + b * x + c
+
+    for column in brainwaves.columns:
+        for target, target_name in zip([attention, meditation], ["Attention", "Meditation"]):
+            x = brainwaves[column]
+            y = target
+
+            try:
+                # Fit quadratic model using curve_fit
+                params, _ = curve_fit(quadratic, x, y, maxfev=10000)
+                predicted_y = quadratic(x, *params)
+
+                # Calculate R^2
+                ss_res = np.sum((y - predicted_y) ** 2)
+                ss_tot = np.sum((y - np.mean(y)) ** 2)
+                r_squared = 1 - (ss_res / ss_tot)
+
+                # Append results
+                results.append({"Brainwave": column, "Target": target_name, "R^2": r_squared})
+
+            except Exception as e:
+                print(f"Error fitting {column} vs {target_name}: {e}")
+
+    # Convert results to a DataFrame for reuse
+    results_df = pd.DataFrame(results)
+
+    # Categorize and group results
+    low = results_df[results_df['R^2'] < 0.3]
+    medium = results_df[(results_df['R^2'] >= 0.3) & (results_df['R^2'] < 0.7)]
+    high = results_df[results_df['R^2'] >= 0.7]
+
+    # Print categorized results
+    print("Low:")
+    for _, row in low.iterrows():
+        print(f"Brainwave: {row['Brainwave']}, Target: {row['Target']}, R^2: {row['R^2']:.4f}")
+
+    print("\nMedium:")
+    for _, row in medium.iterrows():
+        print(f"Brainwave: {row['Brainwave']}, Target: {row['Target']}, R^2: {row['R^2']:.4f}")
+
+    print("\nHigh:")
+    for _, row in high.iterrows():
+        print(f"Brainwave: {row['Brainwave']}, Target: {row['Target']}, R^2: {row['R^2']:.4f}")
+
+    return results_df

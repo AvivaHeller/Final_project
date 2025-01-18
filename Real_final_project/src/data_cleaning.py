@@ -1,4 +1,5 @@
 import pandas as pd
+from scipy.stats import zscore
 
 pd.set_option('display.max_columns', None)
 
@@ -12,6 +13,18 @@ dataset.info()
 
 print('Duplicate rows:')
 print(dataset.duplicated().sum())
+
+
+# Function to remove outliers using z-score
+def remove_outliers(df):
+    z_scores = df.apply(zscore, nan_policy='omit')  # Calculate z-scores for all columns
+    filtered_entries = (z_scores < 3.5).all(axis=1)  # Keep only rows with z-scores < 3.5 (more lenient)
+    return df[filtered_entries]
+
+# Remove outliers
+print("Removing outliers...")
+dataset = remove_outliers(dataset)
+print(f"Data size after outlier removal: {dataset.shape[0]} rows and {dataset.shape[1]} columns")
 
 #Main full dataset is clean - No NaN and no duplicates.  dataset clean.
 
@@ -49,6 +62,13 @@ def split_dataset_by_classification(dataset, classification):
     dataset_1 = dataset[dataset[classification] == 1]
 
 split_dataset_by_classification(dataset, "classification")
+
+# Remove classification column from all datasets
+dataset = dataset.drop(columns=["classification"])
+dataset_0 = dataset_0.drop(columns=["classification"])
+dataset_1 = dataset_1.drop(columns=["classification"])
+
+print(dataset.head())
 print(dataset_0.head())
 print(dataset_1.head())
 
