@@ -75,6 +75,6 @@ def visualize_r_squared(results_df, suffix=""):
 
     # Generate heatmap
     plt.figure(figsize=(10, 8))
-    sns.heatmap(heatmap_data, annot=True, cmap="coolwarm", fmt=".2f", vmin=-1, vmax=1)
+    sns.heatmap(heatmap_data, annot=True, cmap="coolwarm", fmt=".2f", vmin=0, vmax=1)
     plt.title(f"Quadratic R^2 Heatmap for Brainwaves vs Attention/Meditation {suffix}")
     plt.show()
