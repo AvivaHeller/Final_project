@@ -1,11 +1,8 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 from scipy.optimize import curve_fit
 
 from data_cleaning import dataset, dataset_0, dataset_1
-
 
 # Correlation matrix
 correlation_matrix_full = dataset.corr()

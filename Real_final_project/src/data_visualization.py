@@ -2,10 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from data_cleaning import dataset, dataset_0, dataset_1
-from data_analysis import correlation_matrix_0, correlation_matrix_1, correlation_matrix_full
-
-
 def plot_correlation_heatmap(correlation_matrix, title="Correlation Matrix", dataset_name=""):
     """
     Plots a heatmap of the correlation matrix.
