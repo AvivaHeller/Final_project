@@ -24,14 +24,14 @@ def main():
     brainwave_columns = ['delta', 'theta', 'lowAlpha', 'highAlpha', 'lowBeta', 'highBeta', 'lowGamma', 'highGamma']
 
     # Plot Attention vs. Brainwaves
-    plot_brainwave_relationships(dataset, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs')
-    plot_brainwave_relationships(dataset_0, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs')
-    plot_brainwave_relationships(dataset_1, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs')
+    '''plot_brainwave_relationships(dataset, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs', dataset_name="Full Dataset")'''
+    plot_brainwave_relationships(dataset_0, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs', dataset_name="Sleep Dataset")
+    plot_brainwave_relationships(dataset_1, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs', dataset_name="Awake Dataset")
 
     # Plot Meditation vs. Brainwaves
-    plot_brainwave_relationships(dataset, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs')
-    plot_brainwave_relationships(dataset_0, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs')
-    plot_brainwave_relationships(dataset_1, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs')
+    '''plot_brainwave_relationships(dataset, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs', dataset_name="Full Dataset")'''
+    plot_brainwave_relationships(dataset_0, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs', dataset_name="Sleep Dataset")
+    plot_brainwave_relationships(dataset_1, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs', dataset_name="Awake Dataset")
 
     #implementation of non- linear regression test
     results_df_dataset = analyze_r_squared(dataset)

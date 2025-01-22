@@ -1,0 +1,87 @@
+
+# Brainwave Analysis
+
+## Overview
+This package analyzes brainwave data to identify correlations with attention and meditation levels. The workflow includes data cleaning, analysis, and visualization.
+
+## Features
+- **Data Cleaning**: Removes outliers and splits datasets into awake and sleep states.
+- **Data Analysis**: Computes correlation matrices and quadratic relationships for brainwave data.
+- **Visualization**: Generates heatmaps and scatter plots for brainwave relationships.
+
+## Detailed Analysis
+### Data Cleaning
+- Removes outliers using a Z-score method with a threshold of 3.5, ensuring that extreme values are excluded.
+- Splits the dataset into two subsets: 
+  - **Sleep dataset**: Contains observations labeled as sleep states.
+  - **Awake dataset**: Contains observations labeled as awake states.
+
+### Correlation Analysis
+- Computes correlation matrices for each dataset (Full, Awake, and Sleep) to identify the strength and direction of relationships between features.
+- Categorizes correlations into:
+  - **Strong (0.7–1.0)**: Highly significant relationships.
+  - **Moderate (0.3–0.7)**: Noticeable but less strong relationships.
+  - **Weak (0.0–0.3)**: Minimal relationships.
+
+### Quadratic Relationship Analysis
+- Tests non-linear (quadratic) relationships between brainwave features and target variables (attention and meditation).
+- Fits a quadratic model to evaluate the R² value, providing insights into how well the model explains the variability in target variables.
+- Categorizes R² values into:
+  - **High (≥ 0.7)**: Strong fit.
+  - **Medium (0.3–0.7)**: Moderate fit.
+  - **Low (< 0.3)**: Weak fit.
+
+### Visualization
+- **Heatmaps**: Displays correlation matrices using a visually intuitive color-coded grid.
+- **Scatter Plots**: Plots brainwave features (e.g., delta, theta) against attention and meditation levels, with log-scaled axes for better trend analysis.
+
+## Project Structure
+```
+brainwave_analysis/
+│
+├── src/
+│   ├── __init__.py              # Initializes the package
+│   ├── data_cleaning.py         # Data cleaning and preprocessing
+│   ├── data_analysis.py         # Correlation and statistical analysis
+│   ├── data_visualization.py    # Visualization of correlations and relationships
+│
+├── tests/
+│   ├── test_cleaning.py         # Unit tests for data cleaning
+│   ├── test_analysis.py         # Unit tests for data analysis
+│   ├── test_visualization.py    # Unit tests for visualization
+│
+├── main.py                      # Entry point to run the analysis
+├── acquiredDataset.csv          # Input dataset
+├── pyproject.toml               # Dependency and build configuration
+└── README.md                    # Project documentation
+```
+
+## Requirements
+- Python 3.8 or higher
+- Dependencies listed in `pyproject.toml`
+
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/AvivaHeller/Final_project.git
+   cd Final_project
+   ```
+2. Install dependencies:
+   ```bash
+   poetry install
+   ```
+
+## Usage
+Run the analysis using the main script:
+```bash
+python main.py
+```
+
+## Testing
+Execute unit tests with:
+```bash
+pytest
+```
+
+## License
+This project is licensed under the MIT License.

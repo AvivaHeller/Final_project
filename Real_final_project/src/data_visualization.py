@@ -1,4 +1,3 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -34,26 +33,48 @@ def plot_brainwave_relationships(dataset, brainwave_columns, target_column, colo
         title_prefix (str): Prefix for the plot titles (e.g., 'Attention vs' or 'Meditation vs').
         dataset_name (str): Name of the dataset to append to the plot titles.
     """
-    plt.figure(figsize=(16, 12))
+    plt.figure(figsize=(20, 15))
     for i, column in enumerate(brainwave_columns, 1):
         plt.subplot(4, 2, i)
         sns.scatterplot(x=dataset[column], y=dataset[target_column], alpha=0.6, color=color)
-        sns.lineplot(x=dataset[column], y=dataset[target_column], color='red', label='Trendline', ci=None)
         plt.title(f'{title_prefix} {column}')
         plt.xlabel(column)
         plt.ylabel(target_column.capitalize())
         plt.xscale('log')
-
-    plt.tight_layout()
+        plt.yticks([0, 25, 50, 75, 100])
+    
+    plt.subplots_adjust(hspace=0.7)
+    plt.suptitle(f"{dataset_name} - {title_prefix} Brainwave Relationships", fontsize=16, y=0.98)
+    
     plt.show()
 
 
 def visualize_r_squared(results_df, suffix=""):
+    """
+    Visualizes the R² values from a quadratic analysis of brainwave features 
+    against attention and meditation levels using a heatmap.
+
+    Parameters:
+    ----------
+    results_df : pandas.DataFrame
+        A DataFrame containing the results of R² analysis with the following columns:
+        - 'Brainwave': Names of the brainwave features.
+        - 'Target': The target variable ('Attention' or 'Meditation').
+        - 'R^2': The R² value representing the fit of a quadratic relationship.
+    
+    suffix : str, optional
+        An optional suffix to append to the title of the heatmap (default is "").
+
+    Returns:
+    -------
+    None
+        The function displays a heatmap of R² values for visual analysis.
+    """
     # Create a pivot table for visualization
     heatmap_data = results_df.pivot(index="Brainwave", columns="Target", values="R^2")
 
     # Generate heatmap
     plt.figure(figsize=(10, 8))
-    sns.heatmap(heatmap_data, annot=True, cmap="coolwarm", fmt=".2f")
+    sns.heatmap(heatmap_data, annot=True, cmap="coolwarm", fmt=".2f", vmin=-1, vmax=1)
     plt.title(f"Quadratic R^2 Heatmap for Brainwaves vs Attention/Meditation {suffix}")
     plt.show()

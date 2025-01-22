@@ -1,7 +1,11 @@
 import pandas as pd
+# Add 'src' to the Python path
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 # Import the function
-from data_analysis.py import categorize_correlation
+from data_analysis import categorize_correlation
 
 def test_categorize_correlation_positive():
     """Test with a valid correlation matrix."""

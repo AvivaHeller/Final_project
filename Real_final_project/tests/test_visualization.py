@@ -1,44 +1,13 @@
 import pandas as pd
 
+# Add 'src' to the Python path
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
 # Import the functions
-from your_module import plot_attention_and_meditation, plot_correlation_heatmap, plot_brainwave_relationships
-
-def test_plot_attention_and_meditation_positive():
-    """Test with a valid dataset."""
-    data = {
-        "attention": [10, 20, 30, 40, 50],
-        "meditation": [5, 15, 25, 35, 45]
-    }
-    dataset = pd.DataFrame(data)
-
-    try:
-        plot_attention_and_meditation(dataset)
-        print("Positive test passed.")
-    except Exception as e:
-        print(f"Positive test failed: {e}")
-
-def test_plot_attention_and_meditation_missing_columns():
-    """Test with a dataset missing required columns."""
-    data = {
-        "attention": [10, 20, 30, 40, 50]
-    }  # Missing 'meditation'
-    dataset = pd.DataFrame(data)
-
-    try:
-        plot_attention_and_meditation(dataset)
-        print("Missing columns test failed: No exception was raised.")
-    except KeyError as e:
-        print(f"Missing columns test passed: {e}")
-
-def test_plot_attention_and_meditation_empty_dataframe():
-    """Test with an empty DataFrame."""
-    dataset = pd.DataFrame()
-
-    try:
-        plot_attention_and_meditation(dataset)
-        print("Empty DataFrame test failed: No exception was raised.")
-    except Exception as e:
-        print(f"Empty DataFrame test passed: {e}")
+from data_visualization import plot_correlation_heatmap, plot_brainwave_relationships
 
 def test_plot_correlation_heatmap_positive():
     """Test with a valid correlation matrix."""
@@ -147,9 +116,6 @@ def test_plot_brainwave_relationships_invalid_values():
         print(f"Invalid values test encountered unexpected error: {e}")
 
 if __name__ == "__main__":
-    test_plot_attention_and_meditation_positive()
-    test_plot_attention_and_meditation_missing_columns()
-    test_plot_attention_and_meditation_empty_dataframe()
     test_plot_correlation_heatmap_positive()
     test_plot_correlation_heatmap_empty()
     test_plot_correlation_heatmap_invalid_values()

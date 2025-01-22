@@ -15,9 +15,13 @@
         raise ValueError(f"Error converting column '{wavelength}' to numeric: {e}")'''
 
 import pandas as pd
+# Add 'src' to the Python path
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 # Import the function
-from data_cleaning.py import split_dataset_by_classification
+from data_cleaning import split_dataset_by_classification
 
 def test_split_dataset_positive():
     """Test with a valid dataset and classification column."""
@@ -86,4 +90,4 @@ if __name__ == "__main__":
     test_split_dataset_positive()
     test_split_dataset_invalid_column()
     test_split_dataset_invalid_values()
-    test_split_dataset_empty_classification()
+    '''test_split_dataset_empty_classification()'''

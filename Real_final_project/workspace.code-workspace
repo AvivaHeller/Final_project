@@ -1,0 +1,36 @@
+
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.pythonPath": "path/to/your/virtualenv/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+            "tests"
+        ],
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.flake8Enabled": false
+    },
+    "launch": {
+        "configurations": [
+            {
+                "name": "Python: Main Script",
+                "type": "python",
+                "request": "launch",
+                "program": "main.py",
+                "console": "integratedTerminal"
+            },
+            {
+                "name": "Python: Run Tests",
+                "type": "python",
+                "request": "launch",
+                "program": "${workspaceFolder}/tests",
+                "console": "integratedTerminal"
+            }
+        ]
+    }
+}

@@ -12,8 +12,22 @@ correlation_matrix_1 = dataset_1.corr()
 #catagorize correlations
 def categorize_correlation(correlation_matrix):
     """
-    Categorizes correlation matrix values into weak, moderate, and strong.
-    Prints each category with a title.
+    Categorizes correlation matrix values into weak, moderate, and strong correlations.
+
+    Parameters:
+    ----------
+    correlation_matrix : pandas.DataFrame
+        A square DataFrame representing the correlation matrix. The diagonal values 
+        are assumed to be self-correlations (1.0), which are excluded from categorization.
+
+    Outputs:
+    -------
+    None
+        The function prints categorized correlation pairs to the console:
+        - Strong correlations (0.7 - 1.0)
+        - Moderate correlations (0.3 - 0.7)
+        - Weak correlations (0.0 - 0.3)
+    
     """
     # Thresholds for correlation levels
     weak_threshold = (0.0, 0.3)
@@ -53,7 +67,33 @@ def categorize_correlation(correlation_matrix):
 #test for non-linear relationship between brainwaves and attention, meditation
 
 def analyze_r_squared(data):
-   
+    """
+    Analyze the non-linear relationship (quadratic) between brainwave features and attention/meditation levels
+    by calculating the R² values.
+
+    Parameters:
+    ----------
+    data : pandas.DataFrame
+        A DataFrame containing the following:
+        - A column named 'attention' representing attention levels.
+        - A column named 'meditation' representing meditation levels.
+        - Additional columns representing brainwave readings.
+
+    Returns:
+    -------
+    results_df : pandas.DataFrame
+        A DataFrame containing the following columns:
+        - 'Brainwave': The brainwave feature being analyzed.
+        - 'Target': The target variable ('Attention' or 'Meditation').
+        - 'R^2': The R² value representing the fit of a quadratic relationship.
+
+    Additionally:
+    ------------
+    - Prints categorized R² results into three groups:
+        - Low: R² < 0.3
+        - Medium: 0.3 ≤ R² < 0.7
+        - High: R² ≥ 0.7
+    """       
     # Identify columns
     attention = data['attention']
     meditation = data['meditation']
@@ -63,6 +103,10 @@ def analyze_r_squared(data):
     results = []
 
     def quadratic(x, a, b, c):
+        """
+        Defines a quadratic function.
+
+        """
         return a * x**2 + b * x + c
 
     for column in brainwaves.columns:
