@@ -17,6 +17,12 @@ print(dataset.duplicated().sum())
 
 # Function to remove outliers using z-score
 def remove_outliers(df):
+    '''this function will clean outliers with Z scores test
+    parameter:    
+    dataframe
+    return: 
+    clean dataframe
+    '''
     z_scores = df.apply(zscore, nan_policy='omit')  # Calculate z-scores for all columns
     filtered_entries = (z_scores < 3.5).all(axis=1)  # Keep only rows with z-scores < 3.5 (more lenient)
     return df[filtered_entries]

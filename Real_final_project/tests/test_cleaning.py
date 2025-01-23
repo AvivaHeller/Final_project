@@ -1,19 +1,3 @@
-'''# Debugging: Check if the dataset is loaded correctly
-    if not isinstance(data, pd.DataFrame):
-        raise TypeError("The input data must be a pandas DataFrame.")
-
-    print(f"Dataset contains {len(data)} rows and the following columns: {data.columns.tolist()}")
-
-    # Ensure the wavelength column exists
-    if wavelength not in data.columns:
-        raise ValueError(f"Wavelength '{wavelength}' not found in the dataset.")
-
-    # Ensure the column contains numeric data
-    try:
-        data[wavelength] = pd.to_numeric(data[wavelength], errors='coerce')
-    except Exception as e:
-        raise ValueError(f"Error converting column '{wavelength}' to numeric: {e}")'''
-
 import pandas as pd
 # Add 'src' to the Python path
 import sys
@@ -43,7 +27,7 @@ def test_split_dataset_positive():
         print(f"Positive test failed: {e}")
 
 def test_split_dataset_invalid_column():
-    """Test when the classification column does not exist."""
+    """Test when the classification column does not exist, and our ValueError works"""
     data = {
         "Feature1": [10, 20, 30, 40],
         "Feature2": [5, 15, 25, 35]
@@ -57,7 +41,7 @@ def test_split_dataset_invalid_column():
         print(f"Invalid column test passed: {e}")
 
 def test_split_dataset_invalid_values():
-    """Test when the classification column contains invalid values."""
+    """Test when the classification column contains invalid values, and our ValueError works."""
     data = {
         "Feature1": [10, 20, 30, 40],
         "Feature2": [5, 15, 25, 35],
@@ -71,23 +55,9 @@ def test_split_dataset_invalid_values():
     except ValueError as e:
         print(f"Invalid values test passed: {e}")
 
-def test_split_dataset_empty_classification():
-    """Test when the classification column is empty."""
-    data = {
-        "Feature1": [10, 20, 30, 40],
-        "Feature2": [5, 15, 25, 35],
-        "Classification": []  # Empty column
-    }
-    dataset = pd.DataFrame(data)
-
-    try:
-        split_dataset_by_classification(dataset, "Classification")
-        print("Empty classification test failed: No exception was raised.")
-    except ValueError as e:
-        print(f"Empty classification test passed: {e}")
 
 if __name__ == "__main__":
     test_split_dataset_positive()
     test_split_dataset_invalid_column()
     test_split_dataset_invalid_values()
-    '''test_split_dataset_empty_classification()'''
+

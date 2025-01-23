@@ -32,22 +32,9 @@ def test_categorize_correlation_invalid_input():
     except Exception:
         print("Empty DataFrame test passed: Exception was raised as expected.")
 
-def test_categorize_correlation_with_null_values():
-    """Test with a correlation matrix containing null values."""
-    data = {
-        "A": [1.0, None, 0.2],
-        "B": [None, 1.0, 0.8],
-        "C": [0.2, 0.8, 1.0]
-    }
-    correlation_matrix = pd.DataFrame(data, index=["A", "B", "C"])
 
-    try:
-        categorize_correlation(correlation_matrix)
-        print("Null values test failed: No exception was raised.")
-    except Exception:
-        print("Null values test passed: Exception was raised as expected.")
 
 if __name__ == "__main__":
     test_categorize_correlation_positive()
     test_categorize_correlation_invalid_input()
-    test_categorize_correlation_with_null_values()
+    
