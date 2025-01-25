@@ -55,9 +55,33 @@ def test_split_dataset_invalid_values():
     except ValueError as e:
         print(f"Invalid values test passed: {e}")
 
+def test_split_dataset_NaNs_float():
+    # Test data for NaN and non-float values
+    data = {
+        "classification": [0, 1, 0, None, 1],  # NaN value included
+        "alpha": [1.0, 2.0, "3.0", 4.0, 5.0],  # "3.0" is a string (non-float)
+        "beta": [0.1, 0.2, 0.3, 0.4, 0.5]
+    }
+    dataset = pd.DataFrame(data)
+
+    # Test for NaN in the dataset
+    try:
+        split_dataset_by_classification(dataset, "classification")
+        print("Test failed: No exception raised for NaN values.")
+    except ValueError as e:
+        print(f"Test passed for NaN values: {e}")
+
+    # Test for non-float values in the dataset
+    try:
+        split_dataset_by_classification(dataset, "classification")
+        print("Test failed: No exception raised for non-float values.")
+    except ValueError as e:
+        print(f"Test passed for non-float values: {e}")
+
 
 if __name__ == "__main__":
     test_split_dataset_positive()
     test_split_dataset_invalid_column()
     test_split_dataset_invalid_values()
+    test_split_dataset_NaNs_float()
 

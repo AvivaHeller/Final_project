@@ -20,7 +20,8 @@ def remove_outliers(df):
     '''this function will clean outliers with Z scores test
     parameter:    
     dataframe
-    return: 
+
+    returns: 
     clean dataframe
     '''
     z_scores = df.apply(zscore, nan_policy='omit')  # Calculate z-scores for all columns
@@ -44,13 +45,19 @@ def split_dataset_by_classification(dataset, classification):
     Splits a dataset into two based on the values in a classification column.
 
     Parameters:
-        dataset (pd.DataFrame): The input dataset.
-        classification (str): The name of the column used for classification (e.g., 0 and 1).
+        dataset (pd.DataFrame)- The input dataset.
+        classification (str)- The name of the column used for classification (e.g., 0 and 1).
 
     Returns:
-        None: Assigns the split datasets to module-level variables `dataset_0` and `dataset_1`.
+        None- Assigns the split datasets to module-level variables `dataset_0` and `dataset_1`.
     """
-    global dataset_0, dataset_1  # Make variables accessible across the module
+     # Check if there are any missing (NaN) values in the dataset
+    if dataset.isnull().values.any():
+        raise ValueError("The dataset contains NULL (NaN) values.")
+    
+    # Check if all values in the dataset are of type float
+    if not dataset.applymap(lambda x: isinstance(x, float)).all().all():
+        raise ValueError("The dataset contains non-float values.")
 
     # Ensure the classification column exists and values are 0 ror 1
     if classification not in dataset.columns:

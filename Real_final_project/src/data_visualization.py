@@ -23,15 +23,16 @@ def plot_correlation_heatmap(correlation_matrix, title="Correlation Matrix", dat
 #function to compare attention and meditation to each brainwave length
 def plot_brainwave_relationships(dataset, brainwave_columns, target_column, color, title_prefix, dataset_name=""):
     """
-    Plots scatter plots with trendlines for brainwave metrics vs. a target column (e.g., attention or meditation).
+    Plots scatter plots with trendlines for brainwave features vs. a target column.
 
-    Args:
-        dataset (DataFrame): The dataset containing brainwave metrics and target column.
-        brainwave_columns (list): List of brainwave column names.
-        target_column (str): The column to compare against (e.g., 'attention' or 'meditation').
-        color (str): The color for scatter points.
-        title_prefix (str): Prefix for the plot titles (e.g., 'Attention vs' or 'Meditation vs').
-        dataset_name (str): Name of the dataset to append to the plot titles.
+    Parameters:
+        dataset (DataFrame): Data containing brainwave features and the target column.
+        brainwave_columns (list): Brainwave column names to plot.
+        target_column (str): Target variable (e.g., 'attention' or 'meditation').
+        color (str): Color of scatter points.
+        title_prefix (str): Title prefix for each plot.
+        dataset_name (str): Optional dataset name for the plot title.
+
     """
     plt.figure(figsize=(20, 15))
     for i, column in enumerate(brainwave_columns, 1):
@@ -51,24 +52,12 @@ def plot_brainwave_relationships(dataset, brainwave_columns, target_column, colo
 
 def visualize_r_squared(results_df, suffix=""):
     """
-    Visualizes the R² values from a quadratic analysis of brainwave features 
-    against attention and meditation levels using a heatmap.
+    Displays a heatmap of R² values for brainwave features vs. attention/meditation.
 
     Parameters:
-    ----------
-    results_df : pandas.DataFrame
-        A DataFrame containing the results of R² analysis with the following columns:
-        - 'Brainwave': Names of the brainwave features.
-        - 'Target': The target variable ('Attention' or 'Meditation').
-        - 'R^2': The R² value representing the fit of a quadratic relationship.
+        results_df (DataFrame): Contains 'Brainwave', 'Target', and 'R^2' columns.
+        suffix (str, optional): Text to add to the heatmap title (default: "").
     
-    suffix : str, optional
-        An optional suffix to append to the title of the heatmap (default is "").
-
-    Returns:
-    -------
-    None
-        The function displays a heatmap of R² values for visual analysis.
     """
     # Create a pivot table for visualization
     heatmap_data = results_df.pivot(index="Brainwave", columns="Target", values="R^2")
