@@ -25,7 +25,6 @@ def test_plot_correlation_heatmap_invalid_values():
     except Exception as e:
         print(f"Invalid values test failed: {e}")
 
-
 def test_plot_brainwave_relationships_positive():
     """Test with a valid dataset."""
     data = {

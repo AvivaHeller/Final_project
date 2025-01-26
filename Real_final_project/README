@@ -5,8 +5,8 @@ This package analyzes brainwave data to identify correlations with attention and
 
 ## Features
 - **Data Cleaning**: Removes outliers and splits datasets into awake and sleep states.
-- **Data Analysis**: Computes correlation matrices and quadratic relationships for brainwave data.
-- **Visualization**: Generates heatmaps and scatter plots for brainwave relationships.
+- **Data Analysis**: Computes correlation matrices and evaluates quadratic relationships for brainwave data.
+- **Visualization**: Generates heatmaps, scatter plots, and R² relationship analysis.
 
 ## Detailed Analysis
 ### Data Cleaning
@@ -14,6 +14,7 @@ This package analyzes brainwave data to identify correlations with attention and
 - Splits the dataset into two subsets: 
   - **Sleep dataset**: Contains observations labeled as sleep states.
   - **Awake dataset**: Contains observations labeled as awake states.
+- Ensures invalid or non-numeric rows are removed during the splitting process.
 
 ### Correlation Analysis
 - Computes correlation matrices for each dataset (Full, Awake, and Sleep) to identify the strength and direction of relationships between features.
@@ -33,6 +34,27 @@ This package analyzes brainwave data to identify correlations with attention and
 ### Visualization
 - **Heatmaps**: Displays correlation matrices using a visually intuitive color-coded grid.
 - **Scatter Plots**: Plots brainwave features (e.g., delta, theta) against attention and meditation levels, with log-scaled axes for better trend analysis.
+- **R² Heatmaps**: Visualizes the strength of quadratic relationships between brainwave features and target variables.
+
+## Functions and Tests
+### Functions
+1. **`remove_outliers`**: Cleans the dataset by removing rows with extreme values based on Z-scores.
+2. **`split_dataset_by_classification`**: Splits the dataset into subsets (e.g., Awake and Sleep) based on a classification column.
+3. **`categorize_correlation`**: Categorizes correlation matrix values into weak, moderate, and strong levels.
+4. **`analyze_r_squared`**: Evaluates quadratic relationships between brainwave features and attention/meditation levels.
+5. **`plot_correlation_heatmap`**: Visualizes correlation matrices as heatmaps.
+6. **`plot_brainwave_relationships`**: Creates scatter plots for brainwave features vs. attention/meditation.
+7. **`visualize_r_squared`**: Displays R² values in heatmap format for quadratic relationships.
+
+### Tests
+1. **`test_split_dataset_positive`**: Ensures datasets are correctly split by classification labels.
+2. **`test_split_dataset_invalid_column`**: Verifies error handling when a non-existent classification column is used.
+3. **`test_split_dataset_invalid_values`**: Checks handling of invalid values in the classification column.
+4. **`test_split_dataset_NaNs_numeric`**: Tests handling of NaN and non-numeric values during dataset splitting.
+5. **`test_categorize_correlation_positive`**: Validates proper categorization of correlation values.
+6. **`test_no_variance_in_data`**: Ensures `analyze_r_squared` skips features with no variance.
+7. **`test_plot_correlation_heatmap_invalid_values`**: Confirms handling of invalid values in correlation matrices.
+8. **`test_plot_brainwave_relationships_positive`**: Verifies scatter plots are generated correctly.
 
 ## Project Structure
 ```
@@ -81,6 +103,3 @@ Execute unit tests with:
 ```bash
 pytest
 ```
-
-## License
-This project is licensed under the MIT License.
