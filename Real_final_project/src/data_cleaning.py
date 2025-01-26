@@ -14,6 +14,8 @@ dataset.info()
 print('Duplicate rows:')
 print(dataset.duplicated().sum())
 
+print("Checking original dataset for NaN...")
+print(dataset.isnull().sum())
 
 # Function to remove outliers using z-score
 def remove_outliers(df):
@@ -33,48 +35,41 @@ print("Removing outliers...")
 dataset = remove_outliers(dataset)
 print(f"Data size after outlier removal: {dataset.shape[0]} rows and {dataset.shape[1]} columns")
 
-#Main full dataset is clean - No NaN and no duplicates.  dataset clean.
+#Main full dataset is clean - No NaN and no duplicates and no outliers.  dataset clean.
 
-#split dataset to awake vs sleep readings
-# Declare variables at the module level
-dataset_0 = None
-dataset_1 = None
-
+# Split dataset into awake vs sleep readings
 def split_dataset_by_classification(dataset, classification):
     """
     Splits a dataset into two based on the values in a classification column.
 
     Parameters:
         dataset (pd.DataFrame)- The input dataset.
-        classification (str)- The name of the column used for classification (e.g., 0 and 1).
+        classification (str)- The name of the column used for classification (0 and 1).
 
     Returns:
-        None- Assigns the split datasets to module-level variables `dataset_0` and `dataset_1`.
+        dataset_0 (pd.DataFrame)- Subset of the dataset where classification == 0.
+        dataset_1 (pd.DataFrame)- Subset of the dataset where classification == 1.
     """
-     # Check if there are any missing (NaN) values in the dataset
-    if dataset.isnull().values.any():
-        raise ValueError("The dataset contains NULL (NaN) values.")
-    
-    # Check if all values in the dataset are of type float
-    if not dataset.applymap(lambda x: isinstance(x, float)).all().all():
-        raise ValueError("The dataset contains non-float values.")
+    # Remove rows with NaN values or non-numeric data
+    dataset = dataset.apply(pd.to_numeric, errors="coerce")  # Convert non-numeric to NaN
+    dataset = dataset.dropna()  # Drop rows with NaN
 
-    # Ensure the classification column exists and values are 0 ror 1
+    # Ensure the classification column exists
     if classification not in dataset.columns:
         raise ValueError(f"Column '{classification}' does not exist in the dataset.")
-    # Check for invalid values
+    
+    # Check for invalid values in the classification column
     if not all(dataset[classification].isin([0, 1])):
         raise ValueError("The classification column contains values other than 0 and 1.")
 
-    # Filter out invalid classification values (keep only 0 and 1)
-    valid_values = [0, 1]
-    dataset = dataset[dataset[classification].isin(valid_values)]
-
-    # Split the dataset
+    # Filter valid classification values and split the dataset
     dataset_0 = dataset[dataset[classification] == 0]
     dataset_1 = dataset[dataset[classification] == 1]
 
-split_dataset_by_classification(dataset, "classification")
+    return dataset_0, dataset_1
+
+# Call the function and capture the returned datasets
+dataset_0, dataset_1 = split_dataset_by_classification(dataset, "classification")
 
 # Remove classification column from all datasets
 dataset = dataset.drop(columns=["classification"])

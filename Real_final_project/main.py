@@ -19,17 +19,15 @@ def main():
     plot_correlation_heatmap(correlation_matrix_1, dataset_name="Awake Dataset")
     categorize_correlation(correlation_matrix_0)
 
-    #impletmentation of comparison of attentiona dn meditation to each brainwave type
+    #impletmentation of comparison of attentiona and meditation to each brainwave type
     # Define brainwave columns
     brainwave_columns = ['delta', 'theta', 'lowAlpha', 'highAlpha', 'lowBeta', 'highBeta', 'lowGamma', 'highGamma']
 
     # Plot Attention vs. Brainwaves
-    '''plot_brainwave_relationships(dataset, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs', dataset_name="Full Dataset")'''
     plot_brainwave_relationships(dataset_0, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs', dataset_name="Sleep Dataset")
     plot_brainwave_relationships(dataset_1, brainwave_columns, target_column='attention', color='blue', title_prefix='Attention vs', dataset_name="Awake Dataset")
 
     # Plot Meditation vs. Brainwaves
-    '''plot_brainwave_relationships(dataset, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs', dataset_name="Full Dataset")'''
     plot_brainwave_relationships(dataset_0, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs', dataset_name="Sleep Dataset")
     plot_brainwave_relationships(dataset_1, brainwave_columns, target_column='meditation', color='green', title_prefix='Meditation vs', dataset_name="Awake Dataset")
 

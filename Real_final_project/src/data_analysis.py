@@ -9,7 +9,6 @@ correlation_matrix_full = dataset.corr()
 correlation_matrix_0 = dataset_0.corr()
 correlation_matrix_1 = dataset_1.corr()
 
-#catagorize correlations
 def categorize_correlation(correlation_matrix):
     """
     Groups values from a correlation matrix into three categories:
@@ -17,7 +16,7 @@ def categorize_correlation(correlation_matrix):
     - Moderate correlations (0.3 - 0.7)
     - Weak correlations (0.0 - 0.3)
 
-    Excludes self-correlations (diagonal values). Prints categorized pairs.
+    Excludes self-correlations (diagonal values). Returns categorized pairs and prints them in a readable format.
     """
     # Thresholds for correlation levels
     weak_threshold = (0.0, 0.3)
@@ -44,7 +43,7 @@ def categorize_correlation(correlation_matrix):
                 elif strong_threshold[0] <= corr_value <= strong_threshold[1]:
                     strong.append(pair)
 
-    # Print the categorized correlations
+    # Print the categorized correlations in the desired format
     print("High Correlation (Strong, 0.7 - 1.0):")
     print("\n".join(strong) if strong else "None")
 
@@ -54,8 +53,16 @@ def categorize_correlation(correlation_matrix):
     print("\nWeak Correlation (0.0 - 0.3):")
     print("\n".join(weak) if weak else "None")
 
+    # Return the categorized correlations as a dictionary
+    return {
+        "weak": weak,
+        "moderate": moderate,
+        "strong": strong,
+    }
+
 # looking for non-linear relationship between brainwaves and attention, meditation
 def analyze_r_squared(data):
+    
     """
     Analyze the non-linear relationship between brainwave features and attention/meditation levels
     by calculating the R² values.
@@ -79,7 +86,7 @@ def analyze_r_squared(data):
     meditation = data['meditation']
     brainwaves = data.drop(columns=['attention', 'meditation'])
 
-    # Simplest way: Using curve_fit to calculate quadratic R^2
+    # Using curve_fit to calculate quadratic R^2
     results = []
 
     def quadratic(x, a, b, c):
@@ -115,6 +122,10 @@ def analyze_r_squared(data):
     # Convert results to a DataFrame for reuse
     results_df = pd.DataFrame(results)
 
+    if results_df.empty:
+        print("No valid R² values were calculated.")
+        return results_df
+
     # Categorize and group results
     low = results_df[results_df['R^2'] < 0.3]
     medium = results_df[(results_df['R^2'] >= 0.3) & (results_df['R^2'] < 0.7)]
@@ -134,3 +145,4 @@ def analyze_r_squared(data):
         print(f"Brainwave: {row['Brainwave']}, Target: {row['Target']}, R^2: {row['R^2']:.4f}")
 
     return results_df
+
