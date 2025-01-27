@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
 
 from data_cleaning import dataset, dataset_0, dataset_1
 
@@ -145,4 +148,49 @@ def analyze_r_squared(data):
         print(f"Brainwave: {row['Brainwave']}, Target: {row['Target']}, R^2: {row['R^2']:.4f}")
 
     return results_df
+
+def random_forest_analysis(data, test_size=0.2, random_state=42, n_estimators=100):
+    """
+    Perform Random Forest analysis on a dataset for both attention and meditation with predefined brainwave columns.
+
+    Parameters:
+    data : DataFrame - Input dataset.
+
+    Returns:
+    dict - R² scores and DataFrames of feature importances for attention and meditation.
+    """
+    # Predefined brainwave columns
+    brainwave_columns = ['delta', 'theta', 'lowAlpha', 'highAlpha', 'lowBeta', 'highBeta', 'lowGamma', 'highGamma']
+
+    results = {}
+
+    for target in ['attention', 'meditation']:
+        X = data[brainwave_columns]
+        y = data[target]
+
+        # Split the data into training and testing sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+
+        # Initialize and fit the Random Forest Regressor
+        model = RandomForestRegressor(random_state=random_state, n_estimators=n_estimators)
+        model.fit(X_train, y_train)
+
+        # Make predictions
+        y_pred = model.predict(X_test)
+
+        # Evaluate the model
+        r2 = r2_score(y_test, y_pred)
+
+        # Print R² score
+        print(f"R² score for {target.capitalize()}: {r2:.4f}")
+
+        # Feature Importance
+        feature_importance = pd.DataFrame({
+            'Feature': brainwave_columns,
+            'Importance': model.feature_importances_
+        }).sort_values(by='Importance', ascending=False)
+
+        results[target] = {'r2': r2, 'feature_importance': feature_importance}
+
+    return results
 

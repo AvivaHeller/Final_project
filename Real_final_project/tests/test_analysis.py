@@ -1,11 +1,13 @@
 import pandas as pd
+from sklearn.datasets import make_regression
+
 # Add 'src' to the Python path
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 # Import the function
-from data_analysis import categorize_correlation, analyze_r_squared
+from data_analysis import categorize_correlation, analyze_r_squared, random_forest_analysis
 
 def test_categorize_correlation_positive():
     """Test with a valid correlation matrix."""
@@ -43,7 +45,7 @@ def test_no_variance_in_data():
     data = {
         "alpha": [1, 1, 1, 1, 1],  # No variance in 'alpha'
         "attention": [1, 4, 9, 16, 25],
-        "meditation": [2, 4, 6, 8, 10]  # Add a 'meditation' column
+        "meditation": [2, 4, 6, 8, 10]  
     }
     dataset = pd.DataFrame(data)
 
@@ -60,7 +62,32 @@ def test_no_variance_in_data():
     except Exception as e:
         print(f"No variance test failed: {e}")
 
+def test_random_forest_analysis():
+    # Create a synthetic dataset
+    brainwave_columns = ['delta', 'theta', 'lowAlpha', 'highAlpha', 
+                         'lowBeta', 'highBeta', 'lowGamma', 'highGamma']
+    data, target = make_regression(n_samples=200, n_features=8, noise=0.1, random_state=42)
+    df = pd.DataFrame(data, columns=brainwave_columns)
+    df['attention'] = target
+    df['meditation'] = target * 0.5  # Add a second target column for testing
+
+    # Run the Random Forest analysis
+    results = random_forest_analysis(df)
+
+    # Test R² score range
+    for target in ['attention', 'meditation']:
+        r2_score = results[target]['r2']
+        assert 0 <= r2_score <= 1, f"R² score for {target} is out of range: {r2_score}"
+
+        # Test feature importance output
+        feature_importance = results[target]['feature_importance']
+        assert set(feature_importance['Feature']) == set(brainwave_columns), \
+            f"Feature importance does not include all expected columns for {target}"
+
+    print("All tests passed!")
+
 if __name__ == "__main__":
     test_categorize_correlation_positive()
     test_categorize_correlation_correctness()
     test_no_variance_in_data()
+    test_random_forest_analysis()

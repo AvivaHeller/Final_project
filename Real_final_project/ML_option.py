@@ -78,6 +78,37 @@ def visualize_feature_importance(results):
         plt.tight_layout()
         plt.show()
 
+import pandas as pd
+from sklearn.datasets import make_regression
+'''from ML_option import random_forest_analysis'''
+
+def test_random_forest_analysis():
+    # Create a synthetic dataset
+    brainwave_columns = ['delta', 'theta', 'lowAlpha', 'highAlpha', 
+                         'lowBeta', 'highBeta', 'lowGamma', 'highGamma']
+    data, target = make_regression(n_samples=200, n_features=8, noise=0.1, random_state=42)
+    df = pd.DataFrame(data, columns=brainwave_columns)
+    df['attention'] = target
+    df['meditation'] = target * 0.5  # Add a second target column for testing
+
+    # Run the Random Forest analysis
+    results = random_forest_analysis(df)
+
+    # Test R² score range
+    for target in ['attention', 'meditation']:
+        r2_score = results[target]['r2']
+        assert 0 <= r2_score <= 1, f"R² score for {target} is out of range: {r2_score}"
+
+        # Test feature importance output
+        feature_importance = results[target]['feature_importance']
+        assert set(feature_importance['Feature']) == set(brainwave_columns), \
+            f"Feature importance does not include all expected columns for {target}"
+
+    print("All tests passed!")
+
+# Run the test
+test_random_forest_analysis()
+
 # Example usage:
 # Load the dataset
 data = dataset_0

@@ -5,8 +5,8 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 from data_cleaning import dataset, dataset_0, dataset_1
-from data_analysis import correlation_matrix_full, correlation_matrix_0, correlation_matrix_1, categorize_correlation, analyze_r_squared
-from data_visualization import plot_correlation_heatmap, plot_brainwave_relationships, visualize_r_squared
+from data_analysis import correlation_matrix_full, correlation_matrix_0, correlation_matrix_1, categorize_correlation, analyze_r_squared, random_forest_analysis
+from data_visualization import plot_correlation_heatmap, plot_brainwave_relationships, visualize_r_squared, visualize_feature_importance
 
 def main():
     #implemenation of correlation heatmaps and catagorizing
@@ -17,7 +17,7 @@ def main():
     categorize_correlation(correlation_matrix_0)
 
     plot_correlation_heatmap(correlation_matrix_1, dataset_name="Awake Dataset")
-    categorize_correlation(correlation_matrix_0)
+    categorize_correlation(correlation_matrix_1)
 
     #impletmentation of comparison of attentiona and meditation to each brainwave type
     # Define brainwave columns
@@ -38,6 +38,12 @@ def main():
     visualize_r_squared(results_df_datatset_0, suffix= "Sleep dataset")
     results_df_datatset_1 = analyze_r_squared(dataset_1)
     visualize_r_squared(results_df_datatset_1, suffix= "Awake dataset")
+
+    #implememtation of RF Non-linear corelation relationship test
+    results_rf_0= random_forest_analysis(dataset_0)
+    visualize_feature_importance(results_rf_0, dataset_name="Sleep dataset")
+    results_rf_1= random_forest_analysis(dataset_1)
+    visualize_feature_importance(results_rf_1, dataset_name="Awake dataset")
 
 if __name__=="__main__":
     main()

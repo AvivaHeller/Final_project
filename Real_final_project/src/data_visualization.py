@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.datasets import make_regression
+import pandas as pd
+import matplotlib.pyplot as plt
+
 
 def plot_correlation_heatmap(correlation_matrix, title="Correlation Matrix", dataset_name=""):
     """
@@ -67,3 +71,25 @@ def visualize_r_squared(results_df, suffix=""):
     sns.heatmap(heatmap_data, annot=True, cmap="coolwarm", fmt=".2f", vmin=0, vmax=1)
     plt.title(f"Quadratic R^2 Heatmap for Brainwaves vs Attention/Meditation {suffix}")
     plt.show()
+    
+def visualize_feature_importance(results, dataset_name):
+    """
+    Visualize the feature importance as bar charts for both attention and meditation.
+
+    Parameters:
+    results : dict - Results containing feature importances for attention and meditation.
+    dataset_name : str - Name of the dataset to include in the chart title.
+    """
+    for target, data in results.items():
+        color = 'skyblue' if target == 'attention' else 'lightcoral'
+        title = f"Feature Importance for {target.capitalize()} ({dataset_name})"
+        feature_importance = data['feature_importance']
+
+        plt.figure(figsize=(10, 6))
+        plt.bar(feature_importance['Feature'], feature_importance['Importance'], color=color)
+        plt.title(title)
+        plt.xlabel('Features')
+        plt.ylabel('Importance')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
