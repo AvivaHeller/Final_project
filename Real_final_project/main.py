@@ -39,7 +39,7 @@ def main():
     results_df_datatset_1 = analyze_r_squared(dataset_1)
     visualize_r_squared(results_df_datatset_1, suffix= "Awake dataset")
 
-    #implememtation of RF Non-linear corelation relationship test
+    #implememtation of RF Non-linear relationship and relative importance test
     results_rf_0= random_forest_analysis(dataset_0)
     visualize_feature_importance(results_rf_0, dataset_name="Sleep dataset")
     results_rf_1= random_forest_analysis(dataset_1)
