@@ -1,35 +1,26 @@
 {
     "folders": [
-        {
-            "path": "."
-        }
+      {
+        "path": "."
+      }
     ],
     "settings": {
-        "python.pythonPath": "path/to/your/virtualenv/bin/python",
-        "python.testing.pytestEnabled": true,
-        "python.testing.pytestArgs": [
-            "tests"
-        ],
-        "python.linting.enabled": true,
-        "python.linting.pylintEnabled": true,
-        "python.linting.flake8Enabled": false
-    },
-    "launch": {
+      "python.pythonPath": "C:\\Users\\ahell\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe",
+      "python.testing.pytestEnabled": true,
+      "python.testing.pytestArgs": ["tests"],
+      "python.testing.unittestEnabled": false,
+      "python.formatting.provider": "black",
+      "editor.formatOnSave": true,
+      "terminal.integrated.shellArgs.windows": ["pip", "install", "-e", "."],
+      "launch": {
         "configurations": [
-            {
-                "name": "Python: Main Script",
-                "type": "python",
-                "request": "launch",
-                "program": "main.py",
-                "console": "integratedTerminal"
-            },
-            {
-                "name": "Python: Run Tests",
-                "type": "python",
-                "request": "launch",
-                "program": "${workspaceFolder}/tests",
-                "console": "integratedTerminal"
-            }
+          {
+            "name": "Python: Main Script",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py"
+          }
         ]
+      }
     }
 }
